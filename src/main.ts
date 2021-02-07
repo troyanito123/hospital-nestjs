@@ -12,6 +12,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   const configService = app.get(ConfigService);
   const port = configService.get(ConfigOptions.port);
+  app.enableCors();
 
   // generate ormconfig.json
   generateTypeormConfigFile(configService);
