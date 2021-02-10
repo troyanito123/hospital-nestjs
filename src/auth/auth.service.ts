@@ -25,4 +25,12 @@ export class AuthService {
       access_token: this.jwtService.sign(user),
     };
   }
+
+  renew(user: any) {
+    const { id, iat, exp, ...data } = user;
+    return {
+      data,
+      access_token: this.jwtService.sign(data),
+    };
+  }
 }

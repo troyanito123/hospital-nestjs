@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { HistoryStatus } from 'src/history/entities/history.entity';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 import { PatientStatus } from './entities/patient.entity';
@@ -19,10 +20,18 @@ export class PatientService {
   }
 
   findOne(id: number) {
-    return this.patientRepository.findOne({
-      where: { id, status: PatientStatus.ACTIVE },
-      relations: ['histories'],
-    });
+    return this.patientRepository
+      .createQueryBuilder('patient')
+      .leftJoinAndSelect(
+        'patient.histories',
+        'history',
+        'history.status = :status',
+        { status: HistoryStatus.active },
+      )
+      .leftJoinAndSelect('history.consulting_room', 'consulting_room')
+      .where('patient.id = :id', { id })
+      .andWhere('patient.status = :status', { status: PatientStatus.ACTIVE })
+      .getOne();
   }
 
   async update(id: number, updatePatientDto: UpdatePatientDto) {
