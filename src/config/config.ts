@@ -32,10 +32,10 @@ export const config = () => ({
      *  * https://typeorm.io/#/migrations
      */
     migrationsRun: true,
-    migrations: [join(__dirname, '../database/migrations/**/*{.ts,.js}')],
-    migrationsTableName: 'custom_migration_table',
-    cli: {
-      migrationsDir: 'src/database/migrations',
-    },
+    // migrations: [join(__dirname, '../database/migrations/**/*{.ts,.js}')],
+    // migrationsTableName: 'custom_migration_table',
+    // cli: {
+    //   migrationsDir: 'src/database/migrations',
+    // },
   },
 });
