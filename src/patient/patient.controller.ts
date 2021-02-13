@@ -9,12 +9,15 @@ import {
   UseGuards,
   HttpException,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { PatientService } from './patient.service';
 import { CreatePatientDto } from './dto/create-patient.dto';
 import { UpdatePatientDto } from './dto/update-patient.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { FindOneParamsPatient } from './dto/find-one-params-patient';
+import { FindOneParams } from 'src/consulting-room/dto/find-one-params';
+import { FindAllParamsPatient } from './dto/find-all-params-patient';
 
 @UseGuards(JwtAuthGuard)
 @Controller('patient')
@@ -27,8 +30,8 @@ export class PatientController {
   }
 
   @Get()
-  findAll() {
-    return this.patientService.findAll();
+  findAll(@Query() query: FindAllParamsPatient) {
+    return this.patientService.findAll(query);
   }
 
   @Get(':id')

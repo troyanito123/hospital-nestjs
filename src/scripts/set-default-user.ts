@@ -17,11 +17,13 @@ const setDefaultUser = async (configService: ConfigService) => {
     .getOne();
 
   if (!defaultUser) {
+    const role = await roleRepository.findOne({ where: { code: 'ADMIN' } });
+    console.log(role);
     const adminUser = userRepository.create({
       name: configService.get(ConfigOptions.defaultUserName),
       email: configService.get(ConfigOptions.defaultUserEmail),
       password: configService.get(ConfigOptions.defaultUserPassword),
-      role: await roleRepository.findOne({ where: { code: 'ADMIN' } }),
+      role,
     });
     return await userRepository.save(adminUser);
   }

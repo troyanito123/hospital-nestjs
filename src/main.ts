@@ -4,8 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigOptions } from './config/config';
 import generateTypeormConfigFile from './scripts/generate-typeormconfig-file';
-import setDefaultRole from './scripts/set-default-roles';
-import setDefaultUser from './scripts/set-default-user';
+import setDefaultData from './scripts/set-default-data';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,8 +17,7 @@ async function bootstrap() {
   generateTypeormConfigFile(configService);
 
   // Load default data
-  setDefaultRole();
-  setDefaultUser(configService);
+  setDefaultData(configService);
 
   await app.listen(port);
 }

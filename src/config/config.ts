@@ -20,22 +20,27 @@ export const config = () => ({
   database: {
     type: 'postgres',
     host: process.env.DB_HOST,
-    port: 5432,
+    port: parseInt(process.env.DB_PORT, 10) || 5432,
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    entities: [join(__dirname, '../**/**/*entity{.ts,.js}')],
-    synchronize: false,
+    entities: [join(__dirname, '../**/**/*.entity{.ts,.js}')],
+    autoLoadEntities: true,
 
     // Implementaremos Migrations.
     /** Recursos
      *  * https://typeorm.io/#/migrations
      */
     migrationsRun: true,
-    // migrations: [join(__dirname, '../database/migrations/**/*{.ts,.js}')],
-    // migrationsTableName: 'custom_migration_table',
-    // cli: {
-    //   migrationsDir: 'src/database/migrations',
-    // },
+    migrations: [join(__dirname, '../database/migrations/**/*{.ts,.js}')],
+    migrationsTableName: 'custom_migration_table',
+    cli: {
+      migrationsDir: 'src/database/migrations',
+    },
+
+    // Activar SOLO MANUALMENTE en DESARROLLO SI ES NECESARIO (DESACTIVAR EN PRODUCCION).
+    synchronize: false,
+    logging: true,
+    logger: 'file',
   },
 });
