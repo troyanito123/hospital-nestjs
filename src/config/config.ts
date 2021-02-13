@@ -20,6 +20,7 @@ export const config = () => ({
   database: {
     type: 'postgres',
     ssl: true,
+    native: true,
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT, 10) || 5432,
     username: process.env.DB_USERNAME,
