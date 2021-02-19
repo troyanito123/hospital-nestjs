@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { RoleModule } from 'src/role/role.module';
 import { PasswordEncrypter } from './password-encrypter';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from 'src/role/guards/role.guard';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), RoleModule],

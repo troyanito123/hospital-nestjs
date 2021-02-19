@@ -47,7 +47,10 @@ export class UserService {
   }
 
   findByEmail(email: string): Promise<User> {
-    return this.userRepository.findOne({ where: { email } });
+    return this.userRepository.findOne({
+      where: { email },
+      relations: ['role'],
+    });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

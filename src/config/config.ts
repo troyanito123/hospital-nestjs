@@ -19,9 +19,11 @@ export const config = () => ({
   defaultUserPassword: process.env.DEFAULT_USER_PASSWORD,
   database: {
     type: 'postgres',
-    ssl: {
-      rejectUnauthorized: false,
-    },
+
+    // descomentar para mandar a produccion
+    // ssl: {
+    //   rejectUnauthorized: false,
+    // },
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT, 10) || 5432,
     username: process.env.DB_USERNAME,
