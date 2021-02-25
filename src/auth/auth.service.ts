@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const { id, ...data } = user;
+    const { ...data } = user;
     return {
       data,
       access_token: this.jwtService.sign(user),
@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   renew(user: any) {
-    const { id, iat, exp, ...data } = user;
+    const { iat, exp, ...data } = user;
     return {
       data,
       access_token: this.jwtService.sign(data),
