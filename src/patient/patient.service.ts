@@ -15,7 +15,6 @@ export class PatientService {
   }
 
   async findAll(query: FindAllParamsPatient) {
-    console.log(query);
     const resp = await this.patientRepository
       .createQueryBuilder('patient')
       .where('patient.status = :status', { status: PatientStatus.ACTIVE })

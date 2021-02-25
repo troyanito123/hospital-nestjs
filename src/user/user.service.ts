@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { RoleCode } from 'src/role/entities/role.entity';
 import { RoleService } from 'src/role/role.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { FindAllParamsUser } from './dto/find-all-params-user';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
+import { User, UserStatus } from './entities/user.entity';
 import { PasswordEncrypter } from './password-encrypter';
 import { UserRepository } from './user.repository';
 
@@ -27,11 +28,27 @@ export class UserService {
     return result;
   }
 
-  findAll() {
-    return this.userRepository.find({
-      select: ['id', 'email', 'name'],
-      relations: ['role'],
-    });
+  async findAll(query: FindAllParamsUser) {
+    const resp = await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.role', 'role')
+      .where('user.status = :status', { status: UserStatus.ACTIVE })
+      .andWhere('user.name ILIKE :filter', {
+        filter: `%${query.filter || ''}%`,
+      })
+      .select('user.id')
+      .addSelect('user.name')
+      .addSelect('user.email')
+      .addSelect('user.status')
+      .addSelect('role.code')
+      .skip(query.pageNumber * query.pageSize || 0)
+      .take(query.pageSize || 10)
+      .orderBy('user.name', query.sortOrder || 'ASC')
+      .getManyAndCount();
+    return {
+      count: resp[1],
+      data: resp[0],
+    };
   }
 
   async findOne(id: number) {

@@ -9,6 +9,11 @@ import {
 import { PasswordEncrypter } from '../password-encrypter';
 import { History } from '../../history/entities/history.entity';
 
+export enum UserStatus {
+  ACTIVE = 'ACTIVE',
+  DELETE = 'DELETE',
+}
+
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn()
@@ -22,6 +27,9 @@ export class User {
 
   @Column()
   password: string;
+
+  @Column({ default: UserStatus.ACTIVE })
+  status: UserStatus;
 
   @ManyToOne(() => Role, (role) => role.users)
   role: Role;
