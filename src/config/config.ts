@@ -21,9 +21,9 @@ export const config = () => ({
     type: 'postgres',
 
     // descomentar para mandar a produccion
-    // ssl: {
-    //   rejectUnauthorized: false,
-    // },
+    ssl: {
+      rejectUnauthorized: false,
+    },
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT, 10) || 5432,
     username: process.env.DB_USERNAME,
